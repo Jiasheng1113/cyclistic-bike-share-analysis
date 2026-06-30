@@ -45,7 +45,7 @@ SELECT
 FROM cyclistic_trips_cleaned ctc 
 WHERE is_valid_trip = 1
 GROUP BY member_casual, Temporal_categories;
-
+```
 `![Cyclistic Dashboard Scatter Plots](Insert_Link_To_Your_Dashboard_Screenshot_Here.png)`
 
 ### 2. Mathematical Proof via DAX Correlation Coefficients
