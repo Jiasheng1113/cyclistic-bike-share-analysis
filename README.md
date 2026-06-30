@@ -5,8 +5,7 @@ This case study analyzes historical trip data from Cyclistic, a fictional bike-s
 
 The core breakthrough reveals that **temperature variations, rather than daylight duration, act as the primary behavioral catalyst** for ridership spikes—particularly within the casual rider segment. These insights provide a data-driven foundation for targeting high-value conversion marketing campaigns.
 
-👉 **[Link to Interactive Power BI Dashboard]** *(Replace with your link if published, or delete this line)*
-
+https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZWZjOTNlIiwidCI6IjBjOTBiZjlhLTU0ZWItNDlhMi1iOTkwLTI4ZWIxNGU1MTlkMiJ9
 ---
 
 ## 🛠️ The Data Toolkit
