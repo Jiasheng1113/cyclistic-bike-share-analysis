@@ -10,22 +10,25 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 ---
 
 ## 🛠️ The Data Toolkit
-* **Data Extraction & Aggregation:** SQL (Google BigQuery)
+* **Data Extraction & Aggregation:** SQL (PostgreSQL)
 * **Data Modeling & Visualization:** Power BI Desktop
-* **Statistical Analysis:** DAX (Data Analysis Expressions)
+* **Statistical Analysis:** DAX (Data Analysis Expressions), SQL (PostgreSQL)
 
 ---
 
 ## 📊 Business Task & Hypothesis
 **Objective:** Analyze how weather patterns affect casual vs. member ridership volumes to maximize annual membership conversions.
 
-* **Initial Hypothesis:** Total monthly ridership is strictly correlated with daylight duration (longer summer days = more trips).
+* **Initial Hypothesis:**
+* 1) Total monthly ridership is strictly correlated with daylight duration (longer summer days = more trips).
+* 2) Casual riders aren't using these bikes to get to work. They are overwhelmingly weekend users.
 * **The Reality Check:** While daylight has a positive correlation, advanced scatter plot and regression analysis proves that **average monthly temperature ($^\circ$C)** holds a significantly stronger statistical relationship with casual rider behavior.
 
 ---
 
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
-
+### Visual and SQL query for the proportion
+When visualised the dashboard, we query the total trip from the eSQL
 ### 1. Visual Proof (Scatter Plot Matrix)
 When visualized side-by-side on the dashboard, the data points reveal two completely different stories:
 * **Trips vs. Daylight:** High data dispersion. Months with identical daylight profiles yield drastically different trip totals.
