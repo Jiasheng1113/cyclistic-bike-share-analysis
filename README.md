@@ -5,6 +5,7 @@ This case study analyzes historical trip data from Cyclistic, a fictional bike-s
 
 The core breakthrough reveals that **temperature variations, rather than daylight duration, act as the primary behavioral catalyst** for ridership spikes—particularly within the casual rider segment. These insights provide a data-driven foundation for targeting high-value conversion marketing campaigns.
 
+PowerBI link
 https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZWZjOTNlIiwidCI6IjBjOTBiZjlhLTU0ZWItNDlhMi1iOTkwLTI4ZWIxNGU1MTlkMiJ9
 ---
 
@@ -29,6 +30,21 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 When visualized side-by-side on the dashboard, the data points reveal two completely different stories:
 * **Trips vs. Daylight:** High data dispersion. Months with identical daylight profiles yield drastically different trip totals.
 * **Trips vs. Temperature:** Extremely low dispersion. Data points form a tight, upward linear staircase, proving high predictability.
+```sql
+SELECT
+	member_casual,
+	CASE 
+		WHEN (EXTRACT(ISODOW FROM started_at) BETWEEN 1 AND 5) THEN 'Weekday'
+		WHEN (EXTRACT(ISODOW FROM started_at) BETWEEN 6 AND 7) THEN 'Weekend'
+	END AS Temporal_categories,	
+	COUNT(*) AS total_trips,
+	round(COUNT(*) / SUM(COUNT(*)) OVER (PARTITION BY CASE 
+		WHEN (EXTRACT(ISODOW FROM started_at) BETWEEN 1 AND 5) THEN 'Weekday'
+		WHEN (EXTRACT(ISODOW FROM started_at) BETWEEN 6 AND 7) THEN 'Weekend'
+	END) * 100,2) AS rate
+FROM cyclistic_trips_cleaned ctc 
+WHERE is_valid_trip = 1
+GROUP BY member_casual, Temporal_categories;
 
 `![Cyclistic Dashboard Scatter Plots](Insert_Link_To_Your_Dashboard_Screenshot_Here.png)`
 
