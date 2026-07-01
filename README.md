@@ -49,7 +49,7 @@ GROUP BY member_casual, Temporal_categories;
 ```
 The visualisation have been perform for bulid the clustered column chart and 100% stacked column chart.
 
-<img width="795" height="352" alt="Screenshot 2026-07-01 223735" src="https://github.com/user-attachments/assets/5c7ae16b-49dd-4891-9d03-da7554932432" />
+<img width="791" height="355" alt="Screenshot 2026-07-01 223830" src="https://github.com/user-attachments/assets/99fad4ae-f9ed-4a3e-8c95-a3627b1b32c5" />
 
 
 
