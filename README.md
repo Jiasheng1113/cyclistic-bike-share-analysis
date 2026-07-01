@@ -48,7 +48,9 @@ WHERE is_valid_trip = 1
 GROUP BY member_casual, Temporal_categories;
 ```
 The visualisation have been perform for bulid the clustered column chart and 100% stacked column chart.
-<img width="530" height="259" alt="Screenshot 2026-07-01 223101" src="https://github.com/user-attachments/assets/9fc6a809-fb68-48a0-aee9-d31f5da5dcd7" />
+
+<img width="537" height="248" alt="Screenshot 2026-07-01 223613" src="https://github.com/user-attachments/assets/caa370d5-6e94-4cbe-b577-c03f2bf57793" />
+
 
 ### 1. Visual Proof (Scatter Plot Matrix)
 When visualized side-by-side on the dashboard, the data points reveal two completely different stories:
