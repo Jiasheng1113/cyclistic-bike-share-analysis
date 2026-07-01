@@ -49,7 +49,8 @@ GROUP BY member_casual, Temporal_categories;
 ```
 The visualisation have been perform for bulid the clustered column chart and 100% stacked column chart.
 
-<img width="537" height="248" alt="Screenshot 2026-07-01 223613" src="https://github.com/user-attachments/assets/caa370d5-6e94-4cbe-b577-c03f2bf57793" />
+<img width="795" height="352" alt="Screenshot 2026-07-01 223735" src="https://github.com/user-attachments/assets/5c7ae16b-49dd-4891-9d03-da7554932432" />
+
 
 
 ### 1. Visual Proof (Scatter Plot Matrix)
