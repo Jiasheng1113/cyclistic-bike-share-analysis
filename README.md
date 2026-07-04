@@ -10,7 +10,7 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 ---
 
 ## 🛠️ The Data Toolkit
-* **Data Extraction & Aggregation:** SQL (PostgreSQL)
+* **Data Extraction & Aggregation:** SQL (PostgreSQL) - Dbeaver, pgAdmin
 * **Data Modeling & Visualization:** Power BI Desktop
 * **Statistical Analysis:** DAX (Data Analysis Expressions), SQL (PostgreSQL)
 
@@ -25,7 +25,39 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 * **The Reality Check:** While daylight has a positive correlation, advanced scatter plot and regression analysis proves that **average monthly temperature ($^\circ$C)** holds a significantly stronger statistical relationship with casual rider behavior.
 
 ---
-## 🧹 Cleaning Step
+## 🧹 Data Cleaning & Manipulation Documentation
+### Data Stacking & Initial Verification
+
+Before performing any cleaning, the 12 separate monthly CSV files from the Cyclistic trip history system were audited. I verified that all files contained identical column names and data types. And importing the 12 file to the PostgreSQL by using pgAdmin to do the data cleaning. Below is the step to import:
+1) Create table in the SQL by using below query
+```sql
+CREATE TABLE cyclistic_trips_cleaned (
+    ride_id VARCHAR(255),
+    rideable_type VARCHAR(50),
+    started_at TIMESTAMP,
+    ended_at TIMESTAMP,
+    start_station_name VARCHAR(255),
+    start_station_id VARCHAR(255),
+    end_station_name VARCHAR(255),
+    end_station_id VARCHAR(255),
+    start_lat DECIMAL,
+    start_lng DECIMAL,
+    end_lat DECIMAL,
+    end_lng DECIMAL,
+    member_casual VARCHAR(50),
+    is_valid_trip INT -- Your clean data flag
+);
+```
+2) to import the file 12 times each months
+
+```sql
+COPY cyclistic_table
+FROM 'C:\Users\Public\CYCDATA\Nov\Nov.csv'
+CSV HEADER;
+```
+
+
+### Missing Sta
 
 ---
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
