@@ -27,7 +27,7 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 ---
 ## 🧹 Cleaning Step
 
-
+---
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
 ### Visual and SQL query for the proportion
 When visualised the dashboard, we query the total trip from the SQL and group by member_casual, temporal_categories that seperate the day for weekday and weekend.
