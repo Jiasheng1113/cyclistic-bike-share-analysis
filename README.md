@@ -25,6 +25,8 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 * **The Reality Check:** While daylight has a positive correlation, advanced scatter plot and regression analysis proves that **average monthly temperature ($^\circ$C)** holds a significantly stronger statistical relationship with casual rider behavior.
 
 ---
+## 🧹 Cleaning Step
+
 
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
 ### Visual and SQL query for the proportion
