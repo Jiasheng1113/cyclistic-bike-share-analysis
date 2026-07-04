@@ -26,7 +26,7 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 
 ---
 ## 🧹 Data Cleaning & Manipulation Documentation
-### Data Stacking & Initial Verification
+### 1) Data Stacking & Initial Verification
 
 Before performing any cleaning, the 12 separate monthly CSV files from the Cyclistic trip history system were audited. I verified that all files contained identical column names and data types. And importing the 12 file to the PostgreSQL by using pgAdmin to do the data cleaning. Below is the step to import:
 1) Create table in the SQL by using below query
@@ -44,8 +44,7 @@ CREATE TABLE cyclistic_trips_cleaned (
     start_lng DECIMAL,
     end_lat DECIMAL,
     end_lng DECIMAL,
-    member_casual VARCHAR(50),
-    is_valid_trip INT -- Your clean data flag
+    member_casual VARCHAR(50)
 );
 ```
 2) to import the file 12 times each months
@@ -56,8 +55,8 @@ FROM 'C:\Users\Public\CYCDATA\Nov\Nov.csv'
 CSV HEADER;
 ```
 
-
-### Missing Sta
+### 2. Cleaning and Manipulation Log
+2.1
 
 ---
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
