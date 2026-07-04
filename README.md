@@ -55,9 +55,10 @@ FROM 'C:\Users\Public\CYCDATA\Nov\Nov.csv'
 CSV HEADER;
 ```
 
-### 2. Cleaning and Manipulation Log
-2.1
+### 2) Cleaning and Manipulation Log
 
+ 	2.1 Duplicated data
+	Discovery: The April 2026 and May 2026 datasets contained duplicate records due to an error in Cyclistic's source CSV files. The April file extracted records using the ended_at column, whereas the May file used the started_at column. This inconsistency caused data overlapping and led to import failures for the May 2026 dataset until it was cleaned.
 ---
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
 ### Visual and SQL query for the proportion
