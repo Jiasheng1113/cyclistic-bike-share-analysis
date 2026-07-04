@@ -51,7 +51,7 @@ CREATE TABLE cyclistic_trips_cleaned (
 
 ```sql
 COPY cyclistic_table
-FROM 'C:\Users\Public\CYCDATA\Nov\Nov.csv'
+FROM 'file path'
 CSV HEADER;
 ```
 
@@ -59,7 +59,16 @@ CSV HEADER;
 
 #### 2.1 Duplicated data
 * **Discovery**: The April 2026 and May 2026 datasets contained duplicate records due to an error in Cyclistic's source CSV files. The April file extracted records using the ended_at column, whereas the May file used the started_at column. This inconsistency caused data overlapping and led to import failures for the May 2026 dataset until it was cleaned.
+* **Action**: To import May'26 data with using the where function to filter out the April data as below - 
+```sql
+COPY cyclistic_table
+FROM 'file path' WITH CSV HEADER
+WHERE EXTRACT(MONTH FROM started_at) <> 4;
+```
+* **Justification**: Using a staging filter rather than permanently altering or manually deleting rows from the source file preserves data lineage and ensures the cleaning process is programmatic, repeatable, and less prone to human error.
+
 ---
+
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
 ### Visual and SQL query for the proportion
 When visualised the dashboard, we query the total trip from the SQL and group by member_casual, temporal_categories that seperate the day for weekday and weekend.
