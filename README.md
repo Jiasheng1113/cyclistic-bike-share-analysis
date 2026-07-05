@@ -67,6 +67,11 @@ WHERE EXTRACT(MONTH FROM started_at) <> 4;
 ```
 * **Justification**: Using a staging filter rather than permanently altering or manually deleting rows from the source file preserves data lineage and ensures the cleaning process is programmatic, repeatable, and less prone to human error.
 
+#### 2.2 Addressing Missing Station and Coordinate Data (Missing Data Strategy)
+* **Discovery**: I discovered that approximately 20% of the dataset contained location gaps, split into two distinct situations: rows missing only station text fields (start_station_name/end_station_name), and rows missing both station names and numerical coordinates (end_lat/end_lng)..and over 70% of the entries are completely missing station names, station IDs, and precise coordinates, or are corrupted down to an unusable 2-decimal-place precision. However, the core behavioral fields (started_at, ended_at, and member_casual) remain 100% intact and uncorrupted during this same period.
+* **Action**: No deletion actions were implemented. To preserve data integrity and maintain exact tracking capabilities, a two-part conditional strategy was applied:
+    * For records where numerical coordinates were completely missing, the fields were intentionally left as system `NULL` values rather than forcing text placeholders or artificial dummy numbers (like `0.0`) into them.
+* **Justification**: Preserving missing numerical data as true `NULL` values prevents downstream statistical skewing in geographic visualizations (like Power BI maps) and allows future analytical models to accurately identify or filter out incomplete records without processing corrupted data.
 ---
 
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
