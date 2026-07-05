@@ -90,8 +90,8 @@ WHERE EXTRACT(MONTH FROM started_at) <> 4;
 * **Justification** : The raw timestamps are not errors; they show the actual wall-clock time when the bikes were unlocked and docked. Changing the raw source data is bad practice because it destroys the original project records.
 
 #### 2.5 Create another table for analysis table
-* **Discovery**: Direct alter the table will have high risk to restroy the orginal data if the wrongly query create will have create the wrongly data.
-* **Action**: to create table in PostgreSQL for all the column that add by above (ref 2.2 - 2.4).
+* **Discovery**: Directly altering or running update queries on the primary table poses a high risk of destroying or corrupting the original data if a query is written incorrectly.
+* **Action**: Created a permanent, physical analytical table in PostgreSQL to house the newly engineered columns and transformations referenced in steps 2.2 through 2.4.
 ```sql
 -- Just change this top part to create a physical table
 CREATE TABLE cyclistic_trips_cleaned_table AS
@@ -133,7 +133,7 @@ SELECT
 
 FROM cyclistic_table;
 ```
-* **Justification**: A physical analytical table (`CREATE TABLE ... AS`) was deployed rather than a dynamic SQL view to optimize the database lifecycle for reporting. By executing and baking intensive conditional calculations—such as Daylight Saving Time (DST) adjustments, text-pattern filters, and geospatial coordinate bucketing—directly into physical storage, the computational load is removed from runtime execution. This architectural decision heavily optimizes downstream query performance, prevents dashboard slowdowns in Power BI, and separates the raw source material from the final polished data for analysis purpose.
+* **Justification**: A physical analytical table (CREATE TABLE ... AS) was deployed rather than a dynamic SQL view to make the Power BI dashboard load much faster. By calculating the complex math—like Daylight Saving Time (DST) adjustments, text-pattern filters, and region bucketing—only once and saving it directly to a table, the database doesn't have to re-run heavy queries every time you click a chart. This separates the raw source material from the final polished data for analysis purposes, ensuring the original data stays safe and untouched.
 ---
 
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
