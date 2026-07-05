@@ -121,7 +121,7 @@ SELECT
 		ELSE 1 
 	END AS is_valid_trip,
 
-	-- 3. CATEGORIZE REGIONS BASED ON COORDINATES - (2.2)
+	-- 3. CATEGORIZE REGIONS BASED ON COORDINATES - (ref 2.2)
 	CASE
 		WHEN start_lng < -87.75 THEN 'West Region'
 		WHEN start_lat > 41.95 AND start_lng >= -87.75 THEN 'North Region'
