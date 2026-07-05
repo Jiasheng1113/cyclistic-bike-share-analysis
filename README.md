@@ -31,7 +31,7 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 Before performing any cleaning, the 12 separate monthly CSV files from the Cyclistic trip history system were audited. I verified that all files contained identical column names and data types. And importing the 12 file to the PostgreSQL by using pgAdmin to do the data cleaning. Below is the step to import:
 1) Create table in the SQL by using below query
 ```sql
-CREATE TABLE cyclistic_trips_cleaned (
+CREATE TABLE cyclistic_table (
     ride_id VARCHAR(255),
     rideable_type VARCHAR(50),
     started_at TIMESTAMP,
@@ -51,8 +51,7 @@ CREATE TABLE cyclistic_trips_cleaned (
 
 ```sql
 COPY cyclistic_table
-FROM 'file path'
-CSV HEADER;
+FROM 'file path' WITH CSV HEADER;
 ```
 
 ### 2) Cleaning and Manipulation Log
@@ -71,7 +70,70 @@ WHERE EXTRACT(MONTH FROM started_at) <> 4;
 * **Discovery**: I discovered that approximately 20% of the dataset contained location gaps, split into two distinct situations: rows missing only station text fields (start_station_name/end_station_name), and rows missing both station names and numerical coordinates (end_lat/end_lng)..and over 70% of the entries are completely missing station names, station IDs, and precise coordinates, or are corrupted down to an unusable 2-decimal-place precision. However, the core behavioral fields (started_at, ended_at, and member_casual) remain 100% intact and uncorrupted during this same period.
 * **Action**: No deletion actions were implemented. To preserve data integrity and maintain exact tracking capabilities, a two-part conditional strategy was applied:
     * For records where numerical coordinates were completely missing, the fields were intentionally left as system `NULL` values rather than forcing text placeholders or artificial dummy numbers (like `0.0`) into them.
-* **Justification**: Preserving missing numerical data as true `NULL` values prevents downstream statistical skewing in geographic visualizations (like Power BI maps) and allows future analytical models to accurately identify or filter out incomplete records without processing corrupted data.
+    * Implemented Feature Engineering to classify raw geographic coordinates (started_lat, started_lng) into cardinal direction regions (e.g east region, west region, etc.). This reduced categorical complexity and allowed for 100% data utilization.
+* **Justification**: Deleting these rows would ruin our total trip volume calculations. The missing text fields simply indicate dockless bike usage, which is resolved by classify raw geographic coordinates into cardinal direction regions. Leaving missing coordinate numbers as `NULL` prevents database system crashes while ensuring mapping software (like Tableau) automatically skips plotting rows that have no spatial data, preventing errors like "Null Island" artifacts.
+
+#### 2.3 Data Invalidation & Outlier Management
+* **Discovery**: During the data profiling phase, three distinct types of data anomalies were identified:
+	* **Trips Exceeding 24 Hours (>1,440 minutes)**: These represent system errors, docking issues, or lost/stolen assets where the session remained open indefinitely.
+	* **Trips Under 1 Minute (<60 seconds)**: These represent "false starts" where users unlocked a bike, noticed a mechanical issue (e.g., flat tire, broken seat), and immediately re-docked it at the same station.
+	* **Operational Test Rides**: Internal quality control and logistics records identified by station names containing keywords like "HQ", "Warehouse", or "test".
+* **Action**: Rather than permanently deleting raw records, an is_valid_trip column was engineered. A conditional CASE WHEN statement was used to dynamically flag valid rows as 1 and invalid system anomalies as 0 (ref 2.6).
+* **Justification**: Isolating these anomalies is critical for data integrity. Excluding these outliers ensures that metrics like average ride duration and user trip counts reflect genuine customer behavior and prevent heavily skewed results.
+
+#### 2.4 Time Travel Paradox
+* **Discovery**: A data anomaly was identified where the ended_at timestamp occurred before the started_at timestamp, resulting in negative trip durations. This occurred on November 2, 2025, when Daylight Saving Time (DST) ended and clocks rolled back 1 hour. Conversely, on March 8, 2026, when DST started, clocks skipped forward 1 hour, causing an artificial 60-minute inflation in ride durations (e.g., a 17-minute ride appearing as 77 minutes).
+* **Action**: To resolve these clock adjustments without falling into database timezone casting traps, an explicit CASE WHEN statement was integrated into the data cleaning view:
+	1.	For the November Rollback: If ended_at < started_at, the script automatically adds 60 minutes to correct the negative duration.
+	2.	For the March Skip Forward: If a ride crosses the non-existent 2:00 AM hour on March 8, 2026, the script automatically subtracts 60 minutes to eliminate the phantom hour.
+	3.	Otherwise, the standard wall-clock duration math is preserved. 
+* **Justification** : The raw timestamps are not errors; they show the actual wall-clock time when the bikes were unlocked and docked. Changing the raw source data is bad practice because it destroys the original project records.
+
+#### 2.5 Create another table for analysis table
+* **Discovery**: Direct alter the table will have high risk to restroy the orginal data if the wrongly query create will have create the wrongly data.
+* **Action**: to create table in PostgreSQL for all the column that add by above (ref 2.2 - 2.4).
+```sql
+-- Just change this top part to create a physical table
+CREATE TABLE cyclistic_trips_cleaned_table AS
+SELECT 
+	*,
+	
+	-- 1. CALCULATE TRIP DURATION (with DST adjustments) - (ref 2.4)
+	ROUND((EXTRACT(EPOCH FROM (ended_at - started_at)) / 60
+	+ CASE 
+		WHEN started_at > ended_at THEN 60 
+		WHEN DATE(started_at) = '2026-03-08'
+			AND started_at < '2026-03-08 02:00:00'
+			AND ended_at >= '2026-03-08 03:00:00' THEN -60 
+		ELSE 0 
+	  END)::numeric, 2) AS trip_duration,
+
+	-- 2. FILTER VALID TRIPS (Flag out tests, maintenance, and outliers) - (ref 2.3)
+	CASE 
+		WHEN EXTRACT(EPOCH FROM (ended_at - started_at)) / 60 < 1 THEN 0
+		WHEN EXTRACT(EPOCH FROM (ended_at - started_at)) / 60 > 1440 THEN 0
+		WHEN LOWER(start_station_name) LIKE '%test%' 
+			OR LOWER(start_station_name) LIKE '%warehouse%' 
+			OR LOWER(start_station_name) LIKE '%hq%' 
+			OR LOWER(end_station_name) LIKE '%test%' 
+			OR LOWER(end_station_name) LIKE '%warehouse%' 
+			OR LOWER(end_station_name) LIKE '%hq%' THEN 0
+		ELSE 1 
+	END AS is_valid_trip,
+
+	-- 3. CATEGORIZE REGIONS BASED ON COORDINATES - (2.2)
+	CASE
+		WHEN start_lng < -87.75 THEN 'West Region'
+		WHEN start_lat > 41.95 AND start_lng >= -87.75 THEN 'North Region'
+		WHEN start_lat < 41.78 AND start_lng >= -87.75 THEN 'South Region'
+		WHEN start_lat BETWEEN 41.85 AND 41.95 AND start_lng BETWEEN -87.68 AND -87.60 THEN 'Central Region'
+		WHEN start_lng > -87.60 THEN 'East Region'
+		ELSE 'Central Region'
+	END AS start_region
+
+FROM cyclistic_table;
+```
+* **Justification**: A physical analytical table (`CREATE TABLE ... AS`) was deployed rather than a dynamic SQL view to optimize the database lifecycle for reporting. By executing and baking intensive conditional calculations—such as Daylight Saving Time (DST) adjustments, text-pattern filters, and geospatial coordinate bucketing—directly into physical storage, the computational load is removed from runtime execution. This architectural decision heavily optimizes downstream query performance, prevents dashboard slowdowns in Power BI, and separates the raw source material from the final polished data for analysis purpose.
 ---
 
 ## 🕵️‍♂️ Advanced Analysis & Statistical Proof
