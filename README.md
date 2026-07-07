@@ -153,7 +153,7 @@ SELECT
 		WHEN (EXTRACT(ISODOW FROM ended_at) BETWEEN 1 AND 5) THEN 'Weekday'
 		WHEN (EXTRACT(ISODOW FROM ended_at) BETWEEN 6 AND 7) THEN 'Weekend'
 	END) * 100,2) AS rate
-FROM cyclistic_trips_cleaned ctc 
+FROM cyclistic_trips_cleaned_table 
 WHERE is_valid_trip = 1
 GROUP BY member_casual, Temporal_categories;
 ```
@@ -161,7 +161,31 @@ The visualisation have been perform for bulid the clustered column chart and 100
 
 <img width="791" height="355" alt="Screenshot 2026-07-01 223830" src="https://github.com/user-attachments/assets/99fad4ae-f9ed-4a3e-8c95-a3627b1b32c5" />
 
+### 💡 Strategic Data Insights
 
+By analyzing the distribution and proportions of rides across temporal categories, two distinct user personas emerge:
+
+* **1. Annual Members dominate the Weekdays (Commuter Behavior):**
+  * On weekdays, the majority of the users is annual member as 70% of users are annual members in weekdays. 
+  * **Insight:** Annual members rely on Cyclistic as a highly stable, daily utility—likely for commuting to work or university, or connecting to public transit routes during rush hours.
+
+* **2. Casual Riders dominate the Weekends (Leisure Behavior):**
+  * On weekends, the proportion of casual riders increases significantly that almost goes to 50% on weekends. 
+  * **Insight:** Casual users view Cyclistic primarily as a leisure, recreation, or tourist activity. They utilize the bikes when they have free time rather than for structured routines.
+
+### 🔢 Supporting Data Metrics (Ride Length vs. User Type)
+To verify the leisure vs. commuter theories, the average trip duration was analyzed across both user segments:
+* **Annual Members:** Average ride duration is **13 minutes** (Short, fast, routine-driven).
+* **Casual Riders:** Average ride duration is **20 minutes** (Long, extended, leisure-driven).
+
+This data support confirms that casual riders keep the bikes out for twice as long as members, proving a recreational usage pattern.
+---
+
+### 🎯 Business Recommendations for Marketing Strategy
+Based on these insights, a standard "one-size-fits-all" marketing campaign will not work. To convert casual weekend riders into long-term annual members, the business should try:
+
+1. **Targeted Weekend Activation:** Introduce a "Weekend Commuter Pass" or digital marketing banners within the app during peak weekend hours, specifically highlighting how much money or time a user would save if they switched to an annual membership for their weekday travel.
+2. **Seasonal Work/Campus Campaigns:** Run conversion campaigns at the start of the typical work or school semesters, targeting casual riders who have a history of taking multiple weekend trips, positioning annual membership as the ultimate weekday commuting hack.
 
 ### 1. Visual Proof (Scatter Plot Matrix)
 When visualized side-by-side on the dashboard, the data points reveal two completely different stories:
