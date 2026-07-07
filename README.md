@@ -181,11 +181,6 @@ To verify the leisure vs. commuter theories, the average trip duration was analy
 This data support confirms that casual riders keep the bikes out for twice as long as members, proving a recreational usage pattern.
 ---
 
-### 🎯 Business Recommendations for Marketing Strategy
-Based on these insights, a standard "one-size-fits-all" marketing campaign will not work. To convert casual weekend riders into long-term annual members, the business should try:
-
-1. **Targeted Weekend Activation:** Introduce a "Weekend Commuter Pass" or digital marketing banners within the app during peak weekend hours, specifically highlighting how much money or time a user would save if they switched to an annual membership for their weekday travel.
-2. **Seasonal Work/Campus Campaigns:** Run conversion campaigns at the start of the typical work or school semesters, targeting casual riders who have a history of taking multiple weekend trips, positioning annual membership as the ultimate weekday commuting hack.
 
 ### 1. Visual Proof (Scatter Plot Matrix)
 When visualized side-by-side on the dashboard, the data points reveal two completely different stories:
