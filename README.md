@@ -179,15 +179,22 @@ To verify the leisure vs. commuter theories, the average trip duration was analy
 * **Casual Riders:** Average ride duration is **20 minutes** (Long, extended, leisure-driven).
 
 This data support confirms that casual riders keep the bikes out for twice as long as members, proving a recreational usage pattern.
+
 ---
+### The volume Trips group by season
+
+The analysis of the volume trips group by season has been done that using the query and visualise the data.
 
 
-### 1. Visual Proof (Scatter Plot Matrix)
+
+
+---
+### 1. Correlation of the cyclistic trips
 When visualized side-by-side on the dashboard, the data points reveal two completely different stories:
 * **Trips vs. Daylight:** High data dispersion. Months with identical daylight profiles yield drastically different trip totals.
 * **Trips vs. Temperature:** Extremely low dispersion. Data points form a tight, upward linear staircase, proving high predictability.
 
-`![Cyclistic Dashboard Scatter Plots](Insert_Link_To_Your_Dashboard_Screenshot_Here.png)`
+<img width="668" height="412" alt="Screenshot 2026-07-09 212753" src="https://github.com/user-attachments/assets/1bbd7f68-d3a4-43dc-baa4-cee44d046c02" />
 
 ### 2. Mathematical Proof via DAX Correlation Coefficients
 To validate the visual findings, Pearson Correlation Coefficient ($R$) measures were built natively in Power BI to calculate relationship strengths on a scale of -1 to 1.
@@ -207,3 +214,11 @@ VAR Numerator = SUMX(SummaryTable, ([MonthlyTemp] - MeanX) * ([MonthlyTrips] - M
 VAR Denominator = SQRT(SUMX(SummaryTable, ([MonthlyTemp] - MeanX)^2) * SUMX(SummaryTable, ([MonthlyTrips] - MeanY)^2))
 RETURN
     DIVIDE(Numerator, Denominator)
+```
+### 💡 Strategic Data Insights
+Refer to the visualisation and correlation, the overall temperature correlation is better than daylight correlation. And we can see that the temperature is more likely is the causation to affected the trips that most higher temperature (maximum 24C for the study), the higher trips.
+<img width="646" height="312" alt="Screenshot 2026-07-09 214947" src="https://github.com/user-attachments/assets/2e10a28e-beb6-4b05-bf43-6b628223f521" />
+
+
+
+
