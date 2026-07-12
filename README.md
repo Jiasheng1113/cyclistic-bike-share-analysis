@@ -184,9 +184,112 @@ This data support confirms that casual riders keep the bikes out for twice as lo
 ### The volume Trips group by season
 
 The analysis of the volume trips group by season has been done that using the query and visualise the data.
+```sql
+SELECT
+    member_casual,
+    CASE 
+        WHEN EXTRACT(MONTH FROM ended_at) IN (12, 1, 2) THEN 'Q1 (Winter)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (3, 4, 5) THEN 'Q2 (Spring)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (6, 7, 8) THEN 'Q3 (Summer)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (9, 10, 11) THEN 'Q4 (Autumn)'
+        ELSE 'Unknown'
+    END AS season,
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (PARTITION BY CASE 
+        WHEN EXTRACT(MONTH FROM ended_at) IN (12, 1, 2) THEN 'Q1 (Winter)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (3, 4, 5) THEN 'Q2 (Spring)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (6, 7, 8) THEN 'Q3 (Summer)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (9, 10, 11) THEN 'Q4 (Autumn)'
+        ELSE 'Unknown'
+    END ), 2) AS rate,
+    COUNT(*)
+FROM cyclistic_trips_cleaned
+WHERE is_valid_trip = 1 -- And here
+GROUP BY 
+    member_casual,
+    CASE 
+        WHEN EXTRACT(MONTH FROM ended_at) IN (12, 1, 2) THEN 'Q1 (Winter)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (3, 4, 5) THEN 'Q2 (Spring)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (6, 7, 8) THEN 'Q3 (Summer)'
+        WHEN EXTRACT(MONTH FROM ended_at) IN (9, 10, 11) THEN 'Q4 (Autumn)'
+        ELSE 'Unknown'
+    END ;
+```
+| User Type | Quarter (Season) | Percentage (%) | Total Rides |
+| :--- | :--- | :---: | ---: |
+| casual | Q1 (Winter) | 19.47% | 91,040 |
+| member | Q1 (Winter) | 80.53% | 376,469 |
+| casual | Q2 (Spring) | 32.46% | 447,672 |
+| member | Q2 (Spring) | 67.54% | 931,620 |
+| casual | Q3 (Summer) | 42.09% | 910,611 |
+| member | Q3 (Summer) | 57.91% | 1,253,049 |
+| casual | Q4 (Autumn) | 33.75% | 564,010 |
+| member | Q4 (Autumn) | 66.25% | 1,107,004 |
 
+<table>
+  <thead>
+    <tr>
+      <th>Quarter (Season)</th>
+      <th>User Type</th>
+      <th>Percentage (%)</th>
+      <th>Total Rides</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Q1 -->
+    <tr>
+      <td rowspan="2">Q1 (Winter)</td>
+      <td>casual</td>
+      <td align="center">19.47%</td>
+      <td align="right">91,040</td>
+    </tr>
+    <tr>
+      <td>member</td>
+      <td align="center">80.53%</td>
+      <td align="right">376,469</td>
+    </tr>
+    <!-- Q2 -->
+    <tr>
+      <td rowspan="2">Q2 (Spring)</td>
+      <td>casual</td>
+      <td align="center">32.46%</td>
+      <td align="right">447,672</td>
+    </tr>
+    <tr>
+      <td>member</td>
+      <td align="center">67.54%</td>
+      <td align="right">931,620</td>
+    </tr>
+    <!-- Q3 -->
+    <tr>
+      <td rowspan="2">Q3 (Summer)</td>
+      <td>casual</td>
+      <td align="center">42.09%</td>
+      <td align="right">910,611</td>
+    </tr>
+    <tr>
+      <td>member</td>
+      <td align="center">57.91%</td>
+      <td align="right">1,253,049</td>
+    </tr>
+    <!-- Q4 -->
+    <tr>
+      <td rowspan="2">Q4 (Autumn)</td>
+      <td>casual</td>
+      <td align="center">33.75%</td>
+      <td align="right">564,010</td>
+    </tr>
+    <tr>
+      <td>member</td>
+      <td align="center">66.25%</td>
+      <td align="right">1,107,004</td>
+    </tr>
+  </tbody>
+</table>
+<img width="791" height="391" alt="Screenshot 2026-07-12 151347" src="https://github.com/user-attachments/assets/f05c094a-bd1c-4088-aebd-d764fae4d0da" />
 
+### 💡 Strategic Data Insights
 
+T
 
 ---
 ### 1. Correlation of the cyclistic trips
