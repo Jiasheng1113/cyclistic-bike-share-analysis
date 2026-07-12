@@ -285,6 +285,72 @@ GROUP BY
     </tr>
   </tbody>
 </table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Quarter (Season)</th>
+      <th>User Type</th>
+      <th>Percentage (%)</th>
+      <th>Rides by Type</th>
+      <th>Total Seasonal Rides</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Q1 -->
+    <tr>
+      <td rowspan="2">Q1 (Winter)</td>
+      <td>casual</td>
+      <td align="center">19.47%</td>
+      <td align="right">91,040</td>
+      <td rowspan="2" align="right"><strong>467,509</strong></td>
+    </tr>
+    <tr>
+      <td>member</td>
+      <td align="center">80.53%</td>
+      <td align="right">376,469</td>
+    </tr>
+    <!-- Q2 -->
+    <tr>
+      <td rowspan="2">Q2 (Spring)</td>
+      <td>casual</td>
+      <td align="center">32.46%</td>
+      <td align="right">447,672</td>
+      <td rowspan="2" align="right"><strong>1,379,292</strong></td>
+    </tr>
+    <tr>
+      <td>member</td>
+      <td align="center">67.54%</td>
+      <td align="right">931,620</td>
+    </tr>
+    <!-- Q3 -->
+    <tr>
+      <td rowspan="2">Q3 (Summer)</td>
+      <td>casual</td>
+      <td align="center">42.09%</td>
+      <td align="right">910,611</td>
+      <td rowspan="2" align="right"><strong>2,163,660</strong></td>
+    </tr>
+    <tr>
+      <td>member</td>
+      <td align="center">57.91%</td>
+      <td align="right">1,253,049</td>
+    </tr>
+    <!-- Q4 -->
+    <tr>
+      <td rowspan="2">Q4 (Autumn)</td>
+      <td>casual</td>
+      <td align="center">33.75%</td>
+      <td align="right">564,010</td>
+      <td rowspan="2" align="right"><strong>1,671,014</strong></td>
+    </tr>
+    <tr>
+      <td>member</td>
+      <td align="center">66.25%</td>
+      <td align="right">1,107,004</td>
+    </tr>
+  </tbody>
+</table>
 <img width="791" height="391" alt="Screenshot 2026-07-12 151347" src="https://github.com/user-attachments/assets/f05c094a-bd1c-4088-aebd-d764fae4d0da" />
 
 ### 💡 Strategic Data Insights
