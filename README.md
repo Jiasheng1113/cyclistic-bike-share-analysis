@@ -1,6 +1,6 @@
 # Cyclistic Bike-Share Case Study: Uncovering Seasonal & Weather Drivers for Ridership
 
-## 📌 Executive Summary
+##  Executive Summary
 This case study analyzes historical trip data from Cyclistic, a fictional bike-share company, to understand how casual riders and annual members use the service differently. By blending trip logs with granular meteorological data (temperature and daylight hours), this project uncovers critical seasonal behaviors. 
 
 The core breakthrough reveals that **temperature variations, rather than daylight duration, act as the primary behavioral catalyst** for ridership spikes—particularly within the casual rider segment. These insights provide a data-driven foundation for targeting high-value conversion marketing campaigns.
@@ -9,14 +9,14 @@ PowerBI link
 https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZWZjOTNlIiwidCI6IjBjOTBiZjlhLTU0ZWItNDlhMi1iOTkwLTI4ZWIxNGU1MTlkMiJ9&pageName=33f642ee0490a5e23d60
 ---
 
-## 🛠️ The Data Toolkit
+##  The Data Toolkit
 * **Data Extraction & Aggregation:** SQL (PostgreSQL) - Dbeaver, pgAdmin
 * **Data Modeling & Visualization:** Power BI Desktop
 * **Statistical Analysis:** DAX (Data Analysis Expressions), SQL (PostgreSQL)
 
 ---
 
-## 📊 Business Task & Hypothesis
+## Business Task & Hypothesis
 **Objective:** Analyze how weather patterns affect casual vs. member ridership volumes to maximize annual membership conversions.
 
 * **Initial Hypothesis:**
@@ -25,7 +25,7 @@ https://app.powerbi.com/view?r=eyJrIjoiOWI3MTVhMTAtM2Q0Yy00ZDhjLTg4YjYtNWE0YzQxZ
 * **The Reality Check:** While daylight has a positive correlation, advanced scatter plot and regression analysis proves that **average monthly temperature ($^\circ$C)** holds a significantly stronger statistical relationship with casual rider behavior.
 
 ---
-## 🧹 Data Cleaning & Manipulation Documentation
+##  Data Cleaning & Manipulation Documentation
 ### 1) Data Stacking & Initial Verification
 
 Before performing any cleaning, the 12 separate monthly CSV files from the Cyclistic trip history system were audited. I verified that all files contained identical column names and data types. And importing the 12 file to the PostgreSQL by using pgAdmin to do the data cleaning. Below is the step to import:
@@ -136,7 +136,7 @@ FROM cyclistic_table;
 * **Justification**: A physical analytical table (CREATE TABLE ... AS) was deployed rather than a dynamic SQL view to make the Power BI dashboard load much faster. By calculating the complex math—like Daylight Saving Time (DST) adjustments, text-pattern filters, and region bucketing—only once and saving it directly to a table, the database doesn't have to re-run heavy queries every time you click a chart. This separates the raw source material from the final polished data for analysis purposes, ensuring the original data stays safe and untouched.
 ---
 
-## 🕵️‍♂️ Advanced Analysis & Statistical Proof
+## Advanced Analysis & Statistical Proof
 ### Visual and SQL query for the proportion
 When visualised the dashboard, we query the total trip from the SQL and group by member_casual, temporal_categories that seperate the day for weekday and weekend.
 And also I performing calculate the proportion of the member_casual within the temporal_categories to know the behavior of the users.
@@ -161,7 +161,7 @@ The visualisation have been perform for bulid the clustered column chart and 100
 
 <img width="791" height="355" alt="Screenshot 2026-07-01 223830" src="https://github.com/user-attachments/assets/99fad4ae-f9ed-4a3e-8c95-a3627b1b32c5" />
 
-### 💡 Strategic Data Insights
+### Strategic Data Insights
 
 By analyzing the distribution and proportions of rides across temporal categories, two distinct user personas emerge:
 
@@ -173,15 +173,15 @@ By analyzing the distribution and proportions of rides across temporal categorie
   * On weekends, the proportion of casual riders increases significantly that almost goes to 50% on weekends. 
   * **Insight:** Casual users view Cyclistic primarily as a leisure, recreation, or tourist activity. They utilize the bikes when they have free time rather than for structured routines.
 
-### 🔢 Supporting Data Metrics (Ride Length vs. User Type)
+### Supporting Data Metrics (Ride Length vs. User Type)
 To verify the leisure vs. commuter theories, the average trip duration was analyzed across both user segments:
 * **Annual Members:** Average ride duration is **13 minutes** (Short, fast, routine-driven).
 * **Casual Riders:** Average ride duration is **20 minutes** (Long, extended, leisure-driven).
 
-This data support confirms that casual riders keep the bikes out for twice as long as members, proving a recreational usage pattern.
+Data Validation Note: Casual riders keep bikes out for roughly 54% longer per trip than members. Because annual memberships often penalize rides exceeding 30–45 minutes with overage fees, members optimize for efficiency. Casual riders, utilizing single-ride or day passes, display no time-sensitivity, reinforcing their recreational intent.
 
 ---
-### The volume Trips group by season
+### 2. Seasonal Volume Dynamics
 
 The analysis of the volume trips group by season has been done that using the query and visualise the data.
 ```sql
@@ -214,78 +214,6 @@ GROUP BY
         ELSE 'Unknown'
     END ;
 ```
-| User Type | Quarter (Season) | Percentage (%) | Total Rides |
-| :--- | :--- | :---: | ---: |
-| casual | Q1 (Winter) | 19.47% | 91,040 |
-| member | Q1 (Winter) | 80.53% | 376,469 |
-| casual | Q2 (Spring) | 32.46% | 447,672 |
-| member | Q2 (Spring) | 67.54% | 931,620 |
-| casual | Q3 (Summer) | 42.09% | 910,611 |
-| member | Q3 (Summer) | 57.91% | 1,253,049 |
-| casual | Q4 (Autumn) | 33.75% | 564,010 |
-| member | Q4 (Autumn) | 66.25% | 1,107,004 |
-
-<table>
-  <thead>
-    <tr>
-      <th>Quarter (Season)</th>
-      <th>User Type</th>
-      <th>Percentage (%)</th>
-      <th>Total Rides</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Q1 -->
-    <tr>
-      <td rowspan="2">Q1 (Winter)</td>
-      <td>casual</td>
-      <td align="center">19.47%</td>
-      <td align="right">91,040</td>
-    </tr>
-    <tr>
-      <td>member</td>
-      <td align="center">80.53%</td>
-      <td align="right">376,469</td>
-    </tr>
-    <!-- Q2 -->
-    <tr>
-      <td rowspan="2">Q2 (Spring)</td>
-      <td>casual</td>
-      <td align="center">32.46%</td>
-      <td align="right">447,672</td>
-    </tr>
-    <tr>
-      <td>member</td>
-      <td align="center">67.54%</td>
-      <td align="right">931,620</td>
-    </tr>
-    <!-- Q3 -->
-    <tr>
-      <td rowspan="2">Q3 (Summer)</td>
-      <td>casual</td>
-      <td align="center">42.09%</td>
-      <td align="right">910,611</td>
-    </tr>
-    <tr>
-      <td>member</td>
-      <td align="center">57.91%</td>
-      <td align="right">1,253,049</td>
-    </tr>
-    <!-- Q4 -->
-    <tr>
-      <td rowspan="2">Q4 (Autumn)</td>
-      <td>casual</td>
-      <td align="center">33.75%</td>
-      <td align="right">564,010</td>
-    </tr>
-    <tr>
-      <td>member</td>
-      <td align="center">66.25%</td>
-      <td align="right">1,107,004</td>
-    </tr>
-  </tbody>
-</table>
-
 <table>
   <thead>
     <tr>
@@ -353,19 +281,22 @@ GROUP BY
 </table>
 <img width="791" height="391" alt="Screenshot 2026-07-12 151347" src="https://github.com/user-attachments/assets/f05c094a-bd1c-4088-aebd-d764fae4d0da" />
 
-### 💡 Strategic Data Insights
+### Strategic Data Insights
+The Summer Surge (Q3 Peak): Q3 (Summer) represents the absolute peak demand for the entire year, handling over 2.16 million total rides. Crucially, this seasonal expansion is driven heavily by casual riders, whose market share jumps to its yearly maximum of 42.09%.
 
-T
+The Winter Freeze (Q1 Slump): Total demand bottoms out severely in Q1 (Winter), falling to just 467k rides (a ~78% drop from summer). Casual ridership vanishes almost entirely, plummeting down to 19.47% of the mix.
+
+The Transition Curve: As seen in the stacked area chart, casual user activity begins climbing steadily in Spring (Q2), peaks during Summer (Q3), begins cooling down through Autumn (Q4), and collapses rapidly as winter weather sets in.
 
 ---
-### 1. Correlation of the cyclistic trips
+### 3. Correlation of the cyclistic trips
 When visualized side-by-side on the dashboard, the data points reveal two completely different stories:
 * **Trips vs. Daylight:** High data dispersion. Months with identical daylight profiles yield drastically different trip totals.
 * **Trips vs. Temperature:** Extremely low dispersion. Data points form a tight, upward linear staircase, proving high predictability.
 
 <img width="668" height="412" alt="Screenshot 2026-07-09 212753" src="https://github.com/user-attachments/assets/1bbd7f68-d3a4-43dc-baa4-cee44d046c02" />
 
-### 2. Mathematical Proof via DAX Correlation Coefficients
+### Mathematical Proof via DAX Correlation Coefficients
 To validate the visual findings, Pearson Correlation Coefficient ($R$) measures were built natively in Power BI to calculate relationship strengths on a scale of -1 to 1.
 
 #### **Temperature Correlation Measure:**
@@ -384,10 +315,31 @@ VAR Denominator = SQRT(SUMX(SummaryTable, ([MonthlyTemp] - MeanX)^2) * SUMX(Summ
 RETURN
     DIVIDE(Numerator, Denominator)
 ```
-### 💡 Strategic Data Insights
+### Strategic Data Insights
 Refer to the visualisation and correlation, the overall temperature correlation is better than daylight correlation. And we can see that the temperature is more likely is the causation to affected the trips that most higher temperature (maximum 24C for the study), the higher trips.
 <img width="646" height="312" alt="Screenshot 2026-07-09 214947" src="https://github.com/user-attachments/assets/2e10a28e-beb6-4b05-bf43-6b628223f521" />
 
+Temperature is the Primary Catalyst: The mathematical output confirms a near-perfect positive correlation between outdoor temperature and riding activity (achieving an $R$-score near the maximum limit).The Behavior Mechanism: Warmer outdoor temperatures (peaking around 24°C in this study) serve as a direct operational catalyst. While members maintain a baseline volume for necessary work commutes, casual ridership is highly volatile and bound tightly to weather comfort, making temperature the ultimate predictor of seasonal revenue changes.
 
+---
+### 4. Spatial Analysis: Regional Demand & User Hubs
+
+To optimize marketing spend and physical bike distribution, a geographical analysis was conducted across five distinct operating regions. The data reveals highly contrasting behavioral hubs between casual riders and annual members:
+<img width="543" height="210" alt="Screenshot 2026-07-13 221758" src="https://github.com/user-attachments/assets/5bcee4b7-d744-4457-a379-a23de1d6f538" />
+
+| Region | User Type | Total Trips | Proportion (%) |
+| :--- | :--- | :---: | :---: |
+| **Central Region** | casual <br> member | 1,707,637 <br> 3,086,148 | 35.62% <br> **64.38%** |
+| **East Region** | casual <br> member | 45,812 <br> 102,811 | 30.82% <br> **69.18%** |
+| **North Region** | casual <br> member | 232,768 <br> 453,661 | 33.91% <br> **66.09%** |
+| **South Region** | casual <br> member | 15,652 <br> 12,432 | **55.73%** <br> 44.27% |
+| **West Region** | casual <br> member | 11,464 <br> 13,090 | 46.69% <br> 53.31% |
+
+
+#### Key Geographical Insights
+
+*   **The Central Region ("The Mega Hub"):** Accounting for over **4.7 Million total trips**, this region is the primary economic engine of Cyclistic's network. It is heavily dominated by annual members (**64.38%**), confirming its utility as a high-density commercial and transit core where users rely on bikes for daily workplace or university commuting.
+*   **The South Region ("The Casual Outpost"):** The South stands out as a clear operational anomaly—it is the **only region** where casual riders outnumber annual members (**55.73%** vs. 44.27%). Due to its lower trip volume and higher casual ratio, this zone represents a dedicated recreational hotspot (e.g., parks, scenic coastal pathways, or tourist attractions).
+*   **North and East Regions ("The Commuter Strongholds"):** These suburban sectors yield the highest concentrations of annual members (**66.09%** and **69.18%** respectively). This strongly indicates that residents in the North and East utilize Cyclistic as a structured "first-mile/last-mile" transit solution to bridge the gap between their homes and local train stations.
 
 
