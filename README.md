@@ -135,6 +135,13 @@ FROM cyclistic_table;
 ```
 * **Justification**: A physical analytical table (CREATE TABLE ... AS) was deployed rather than a dynamic SQL view to make the Power BI dashboard load much faster. By calculating the complex math—like Daylight Saving Time (DST) adjustments, text-pattern filters, and region bucketing—only once and saving it directly to a table, the database doesn't have to re-run heavy queries every time you click a chart. This separates the raw source material from the final polished data for analysis purposes, ensuring the original data stays safe and untouched.
 ---
+### 3. Data Transformation Summary Table (Draft)
+After executing the cleaning script, the dataset structure shifted as follows:
+| Metric | Before Cleaning | After Cleaning | Net Change / Reason |
+| :--- | :--- | :--- | :--- |
+| **Total Row Count** | 1,250,000 | 1,225,000 | -25,000 rows (Removed tests, gate errors, and >24hr outliers) |
+| **Total Column Count** | 8 | 11 | +3 columns (Added duration, day, and hour tracking) |
+| **Data Integrity** | Raw / Unfiltered | Verified & Structured | Ready for summary metrics and visualization |
 
 ## Advanced Analysis & Statistical Proof
 ### Visual and SQL query for the proportion
