@@ -139,8 +139,8 @@ FROM cyclistic_table;
 After executing the cleaning script, the dataset structure shifted as follows:
 | Metric | Before Cleaning | After Cleaning | Net Change / Reason |
 | :--- | :--- | :--- | :--- |
-| **Total Row Count** | 1,250,000 | 1,225,000 | -25,000 rows (Removed tests, gate errors, and >24hr outliers) |
-| **Total Column Count** | 8 | 11 | +3 columns (Added duration, day, and hour tracking) |
+| **Total Row Count** | 5,681,500 | 5,681,475 | -35 rows (Removed duplicated) |
+| **Total Column Count** | 13 | 16 | +3 columns (start_region, is_valid_trip,trip_duration) |
 | **Data Integrity** | Raw / Unfiltered | Verified & Structured | Ready for summary metrics and visualization |
 
 ## Advanced Analysis & Statistical Proof
