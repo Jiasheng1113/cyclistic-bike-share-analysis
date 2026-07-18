@@ -135,13 +135,30 @@ FROM cyclistic_table;
 ```
 * **Justification**: A physical analytical table (CREATE TABLE ... AS) was deployed rather than a dynamic SQL view to make the Power BI dashboard load much faster. By calculating the complex math—like Daylight Saving Time (DST) adjustments, text-pattern filters, and region bucketing—only once and saving it directly to a table, the database doesn't have to re-run heavy queries every time you click a chart. This separates the raw source material from the final polished data for analysis purposes, ensuring the original data stays safe and untouched.
 ---
-### 3. Data Transformation Summary Table (Draft)
+### 3. Data Transformation Summary Table
 After executing the cleaning script, the dataset structure shifted as follows:
 | Metric | Before Cleaning | After Cleaning | Net Change / Reason |
 | :--- | :--- | :--- | :--- |
 | **Total Row Count** | 5,681,500 | 5,681,475 | -35 rows (Removed duplicated) |
 | **Total Column Count** | 13 | 16 | +3 columns (start_region, is_valid_trip,trip_duration) |
 | **Data Integrity** | Raw / Unfiltered | Verified & Structured | Ready for summary metrics and visualization |
+
+## Dashboard Structure & Strategic Insights
+
+### Page 1: Executive Summary & Temporal Habits
+*   **Visuals:** KPI Summary Cards, Clustered Column Chart (Trip Volumes), Avg Trip Duration Card.
+*   **Data Findings:** Annual members dominate weekdays (**70% of total weekday rides**) for fast, routine commutes. Casual riders surge heavily on weekends, matching member volumes at nearly a **50% split**.
+*   **Behavioral Proxy:** Members average a crisp **13 minutes** per trip, while casual riders keep bikes out **54% longer (20 minutes average)**, proving their intent is purely recreational.
+*   **Strategy:** Target heavy weekend casual riders with a **"Weekday Commuter Pass"** trial (5 free morning rush-hour rides) to prove the utility of daily biking for work or university.
+
+### Page 2: Environmental, Seasonal & Spatial Deep-Dive
+*   **Visuals:** Stacked Area Chart (Q1–Q4 trends), Scatter Plots (Daylight vs. Temp), Regional Clustered Bar Chart.
+*   **Data Findings (Weather):** Total demand drops by **78%** in **Q1 (Winter)** down to 467k rides, where casual ridership vanishes to just 19.47%. Conversely, demand peaks massively in **Q3 (Summer)** at **2.16 Million rides**, driving casual market share to its yearly maximum of **42.09%**. Advanced DAX statistical measures ($R$-scores) confirm outdoor temperature is a near-perfect linear driver of casual ride volume.
+*   **Data Findings (Geography):** 
+    *   **Central Region ("The Mega Hub"):** The main economic engine handling **4.7M total trips** (includes a massive **1.7M casual trips**).
+    *   **South Region ("The Casual Outpost"):** The only region where casual riders outnumber annual members (**55.73%**), signifying a pure leisure/tourist hotspot.
+*   **Strategy (Weather-Triggered):** Run targeted app promotions during late Q2 and Q3. When the local weekend forecast reaches a warm **20°C - 24°C**, push a dynamic update: *"Enjoying the sun? Lock in unlimited summer rides today by upgrading to an annual member!"*
+*   **Strategy (Spatial):** Create a brand new contract tier: **"The Cyclistic Leisure Membership."** This pass offers an extended **45-to-60 minute ride limit** active on weekends. Advertise this tier directly via Out-of-Home (OOH) billboards at the physical bike docks in the Central and South regions to capture leisure riders who traditionally avoid the strict 30-minute commuter caps.
 
 ## Advanced Analysis & Statistical Proof
 ### Visual and SQL query for the proportion
