@@ -161,7 +161,7 @@ After executing the cleaning script, the dataset structure shifted as follows:
 *   **Strategy (Spatial):** Create a brand new contract tier: **"The Cyclistic Leisure Membership."** This pass offers an extended **45-to-60 minute ride limit** active on weekends. Advertise this tier directly via Out-of-Home (OOH) billboards at the physical bike docks in the Central and South regions to capture leisure riders who traditionally avoid the strict 30-minute commuter caps.
 
 ## Advanced Analysis & Statistical Proof
-### Visual and SQL query for the proportion
+### 1） Visual and SQL query for the proportion
 When visualised the dashboard, we query the total trip from the SQL and group by member_casual, temporal_categories that seperate the day for weekday and weekend.
 And also I performing calculate the proportion of the member_casual within the temporal_categories to know the behavior of the users.
 
